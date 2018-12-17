@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+    <h2>{{ review.title }}</h2>
+    <hr>
+    <p>{{ review.content }}</p>
+    <hr>
+
+    <p>{{ review.rating }}/100</p>
+    <br>
+    <p>{{ review.reviewDate|date("m/d/Y") }}</p>
+
+{% endblock %}

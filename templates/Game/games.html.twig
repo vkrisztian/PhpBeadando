@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% set notices = app.session.flashbag.get('notice') %}
+    {% for msg in notices %}
+        <p style="color:red">{{ msg }}</p>
+    {% endfor %}
+    {% if notices is not empty %}
+        <hr/>
+    {% endif %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <p><a href="{{ path('gameedit') }}">ADD NEW GAME</a></p>
+    {% endif %}
+    {% if games is not empty %}
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Genre</th>
+            <th>Developer</th>
+            <th>Cost</th>
+            <th>Review</th>
+            <th>Release year</th>
+            {% if is_granted('ROLE_ADMIN') %}
+            <th>Edit</th>
+            <th>Delete</th>
+            {% endif %}
+        </tr>
+        </thead>
+        <tbody>
+        {% for game in games %}
+            <tr>
+                <td>{{ game.name }}</td>
+                <td>{{ game.genre }}</td>
+                <td>{{ game.developer }}</td>
+                <td>{{ game.cost }}</td>
+                {% set review = game.review is null ? "N/A" :
+                    game.review.reviewId %}
+                <td>{{ review }}</td>
+                <td>{{ game.releaseYear }}</td>
+                {% if is_granted('ROLE_ADMIN') %}
+                   <td>
+                       <a href="{{ path('gameedit', { 'gameId': game.videogameId }) }}">
+                        EDIT GAME</a>
+                   </td>
+                <td>
+                    <a href="{{ path('gamedel', { 'gameId': game.videogameId }) }}">
+                        REMOVE GAME</a>
+                </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif  %}
+
+{% endblock %}
