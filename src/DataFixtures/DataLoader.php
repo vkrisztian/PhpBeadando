@@ -1,13 +1,12 @@
 <?php
 namespace App\DataFixtures;
 
-use App\Entity\Brand;
-use App\Entity\Car;
+
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\DBAL\Logging\DebugStack;
-use Doctrine\DBAL\Logging\EchoSQLLogger;
+
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -31,6 +30,15 @@ class DataLoader extends Fixture implements  FixtureInterface, ContainerAwareInt
     public function load(ObjectManager $manager)
     {
         $this->em = $manager;
+
+        $admin = new User();
+        $admin->setUserEmail("admin@admin.hu");
+        $admin->setUserPass("admin123");
+        $admin->setUserRank("ADMIN");
+
+        $this->em->persist($admin);
+        $this->em->flush();
+
 
 
 
