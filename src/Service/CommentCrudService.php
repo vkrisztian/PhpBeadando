@@ -99,7 +99,7 @@ class CommentCrudService extends CrudService implements ICommentCrudService
         $form->add("content", TextareaType::class, [
             'required'=>true
         ]);
-        $form->add("SAVE", SubmitType::class);
+        $form->add("Add Comment", SubmitType::class);
         return $form->getForm();
     }
 

@@ -1,0 +1,29 @@
+{% block commentAdd %}
+    <hr>
+    <h3>Add Comment</h3>
+    {% if form is defined %}
+    {% form_theme form 'form_table_layout.html.twig' %}
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    {% endif %}
+{% endblock %}
+{% block Commented %}
+    <fieldset>
+    <legend> Comments: </legend>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Comment</th>
+            <th>Date</th>
+        </tr>
+    {% for comment in comments %}
+        <tr>
+            <td>{{ comment.owner.username }}</td>
+            <td>{{ comment.content }}</td>
+            <td>{{ comment.commentDate|date("m/d/Y") }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+    </fieldset>
+{% endblock %}

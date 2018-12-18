@@ -1,24 +1,24 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
+    <table>
     {% for review in reviews %}
-        <table>
+
         <tr>
-        <td><a href="{{ path('reviewShow',{'reviewId': review.reviewId}) }}">{{ review.title }}</a></td>
+        <td><a href="{{ path('reviewShow',{'reviewId': review.reviewId,'userId': app.user.userId}) }}">{{ review.title }}</a></td>
        {% if is_granted('ROLE_ADMIN') %}
             <td>
-            <a href="{{ path('reviewedit') }}">EDIT REVIEW</a>
+            <a href="{{ path('reviewedit',{'userId': app.user.userId,'reviewId': review.reviewId}) }}">EDIT REVIEW</a>
             </td>
         {% endif %}
-
         </tr>
-        </table>
+
     {% endfor %}
+    </table>
 
     {% if is_granted('ROLE_ADMIN') %}
         <br>
         <br>
-        <p><a href="{{ path('reviewedit') }}">ADD NEW REVIEW</a></p>
+        <p><a href="{{ path('reviewedit',{'userId': app.user.userId}) }}">ADD NEW REVIEW</a></p>
     {% endif %}
 {% endblock %}

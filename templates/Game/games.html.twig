@@ -19,7 +19,6 @@
             <th>Genre</th>
             <th>Developer</th>
             <th>Cost</th>
-            <th>Review</th>
             <th>Release year</th>
             {% if is_granted('ROLE_ADMIN') %}
             <th>Edit</th>
@@ -34,9 +33,6 @@
                 <td>{{ game.genre }}</td>
                 <td>{{ game.developer }}</td>
                 <td>{{ game.cost }}</td>
-                {% set review = game.review is null ? "N/A" :
-                    game.review.reviewId %}
-                <td>{{ review }}</td>
                 <td>{{ game.releaseYear }}</td>
                 {% if is_granted('ROLE_ADMIN') %}
                    <td>

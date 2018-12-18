@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Review;
+use App\Entity\User;
 use Symfony\Component\Form\FormInterface;
 
 Interface IReviewCrudFactory
@@ -46,4 +47,11 @@ Interface IReviewCrudFactory
      * @return FormInterface
      */
     public function getReviewForm($review);
+
+    /**
+     * @param $userId
+     * @return User
+     */
+    public function getOwnerById($userId);
+
 }

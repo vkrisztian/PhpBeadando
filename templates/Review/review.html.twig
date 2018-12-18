@@ -9,5 +9,5 @@
     <p>{{ review.rating }}/100</p>
     <br>
     <p>{{ review.reviewDate|date("m/d/Y") }}</p>
-
+    {% include 'Comment/comments.html.twig' with {'comments' : comments, 'form' : form2} %}
 {% endblock %}

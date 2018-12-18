@@ -30,21 +30,21 @@ class DataLoader extends Fixture implements  FixtureInterface, ContainerAwareInt
     public function load(ObjectManager $manager)
     {
         $this->em = $manager;
+//
+//        $admin = new User();
+//        $user = "admin@admin.hu";
+//        $admin->setUserEmail($user);
+//        $clearpass = "admin123";
+//        $hashpass = $this->get("security.password_encoder")->encodePassword($user, $clearpass);
+//        $admin->setUserPass($hashpass);
+//        $admin->setUserRank("ADMIN");
+//
+//        $this->em->persist($admin);
+//        $this->em->flush();
 
-        $admin = new User();
-        $admin->setUserEmail("admin@admin.hu");
-        $admin->setUserPass("admin123");
-        $admin->setUserRank("ADMIN");
-
-        $this->em->persist($admin);
-        $this->em->flush();
 
 
 
-
-// CRUD = Create, Read, Update, Delete
-// TODO: CRUD SERVICE
-// Fat services, Skinny controllers
         /*
 \xampp\php\php bin/console doctrine:schema:drop --force --full-database
 \xampp\php\php bin/console doctrine:database:create

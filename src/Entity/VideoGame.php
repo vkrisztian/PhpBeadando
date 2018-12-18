@@ -8,6 +8,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,11 +59,18 @@ class VideoGame
     var $cost;
 
     /**
-     * @var Review
-     * @ORM\OneToOne(targetEntity="Review",inversedBy="videogame")
-     * @ORM\JoinColumn(name="game_review", referencedColumnName="review_id")
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="Review",mappedBy="videogame")
      */
     var $game_review;
+
+    /**
+     * VideoGame constructor.
+     */
+    public function __construct()
+    {
+        $this->game_review = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -137,17 +146,17 @@ class VideoGame
     }
 
     /**
-     * @return Review
+     * @return Collection
      */
-    public function getReview():? Review
+    public function getReview():? Collection
     {
         return $this->game_review;
     }
 
     /**
-     * @param Review $review
+     * @param Collection $review
      */
-    public function setReview(Review $review): void
+    public function setReview(Collection $review): void
     {
         $this->game_review = $review;
     }
@@ -173,6 +182,7 @@ class VideoGame
     {
         $this->name = $name;
     }
+
 
 
 

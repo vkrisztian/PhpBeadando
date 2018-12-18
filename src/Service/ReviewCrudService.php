@@ -10,6 +10,7 @@ namespace App\Service;
 
 
 use App\Entity\Review;
+use App\Entity\User;
 use App\Entity\VideoGame;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -113,4 +114,14 @@ class ReviewCrudService extends CrudService implements IReviewCrudFactory
         return $form->getForm();
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getOwnerById($userId)
+    {
+        $userRepo = $this->em->getRepository(User::class);
+        $user = $userRepo->find($userId);
+        return $user;
+
+    }
 }

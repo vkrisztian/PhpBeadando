@@ -54,7 +54,7 @@ class Review
 
     /**
      * @var VideoGame
-     * @ORM\OneToOne(targetEntity="VideoGame",inversedBy="game_review" )
+     * @ORM\ManyToOne(targetEntity="VideoGame",inversedBy="game_review" )
      * @ORM\JoinColumn(name="videogame", referencedColumnName="videogame_id")
      */
     private $videogame;

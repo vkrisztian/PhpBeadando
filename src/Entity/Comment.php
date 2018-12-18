@@ -59,6 +59,14 @@ class Comment
      */
     private $comment_date;
 
+    /**
+     * Comment constructor.
+     */
+    public function __construct()
+    {
+        $this->rating = 0;
+    }
+
 
     /**
      * @ORM\PrePersist
@@ -70,6 +78,8 @@ class Comment
             $this->comment_date=new \DateTime();
         }
     }
+
+
 
     /**
      * @return int
@@ -131,7 +141,7 @@ class Comment
     /**
      * @return string
      */
-    public function getContent(): string
+    public function getContent():? string
     {
         return $this->content;
     }

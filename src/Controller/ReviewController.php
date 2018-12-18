@@ -9,7 +9,9 @@
 namespace App\Controller;
 
 
+use App\Entity\Comment;
 use App\Entity\Review;
+use App\Service\ICommentCrudService;
 use App\Service\IReviewCrudFactory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -23,12 +25,19 @@ class ReviewController extends Controller
      */
     private $reviewService;
 
+    /**
+     * @var ICommentCrudService
+     */
+    private $commentServcie;
+
+
 
 
     public function setContainer(ContainerInterface $container = null)
     {
         parent::setContainer($container);
         $this->reviewService=$container->get('app.reviews');
+        $this->commentServcie=$container->get('app.comments');
     }
 
     /**
@@ -45,24 +54,44 @@ class ReviewController extends Controller
 
 
     /**
-     * @Route("/reviewShow/{reviewId}", name="reviewShow")
+     * @Route("/reviewShow/{reviewId}/{userId}", name="reviewShow")
      */
-    public function showReview(Request $request,$reviewId)
+    public function showReview(Request $request,$reviewId,$userId)
     {
         $review = $this->reviewService->getReviewById($reviewId);
-        return $this->render('Review/review.html.twig',["review"=>$review]);
+        $comments = $this->commentServcie->getAllCommentsForReview($reviewId);
+        $twigParams["review"] = $review;
+        $twigParams["comments"] = $comments;
+        $comment = new Comment();
+        $user = $this->reviewService->getOwnerById($userId);
+        $comment->setOwner($user);
+        $review = $this->reviewService->getReviewById($reviewId);
+        $comment->setReview($review);
+        $form2 = $this->commentServcie->getCommentForm($comment);
+        $twigParams["form2"] = $form2->createView();
+        $form2->handleRequest($request);
+        if ($form2->isSubmitted() && $form2->isValid()){
+            $this->commentServcie->saveComment($comment);
+            $this->addFlash('notice', 'CommentAdded');
+            $params['reviewId'] = $reviewId;
+            $params['userId'] = $userId;
+            return $this->redirectToRoute('reviewShow',$params);
+        }
+
+        return $this->render('Review/review.html.twig',$twigParams);
 
     }
 
     /**
-     * @Route("/reviewedit/{reviewId}", name="reviewedit")
+     * @Route("/reviewedit/{userId}/{reviewId}", name="reviewedit")
      */
-    public function editAction(Request $request, $reviewId=0) {
+    public function editAction(Request $request,$userId, $reviewId=0) {
         if ($reviewId){
             $review = $this->reviewService->getReviewById($reviewId);
         } else {
             $review = new Review();
-
+            $user = $this->reviewService->getOwnerById($userId);
+            $review->setOwner($user);
         }
         $form = $this->reviewService->getReviewForm($review);
         $form->handleRequest($request);
